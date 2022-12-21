@@ -14,7 +14,7 @@ public class SnakeGame extends ApplicationAdapter {
 	Texture snakeImg;
 	private Rectangle snake;
 	private OrthographicCamera camera;
-	private String direction;
+	private char direction = 'R';
 	
 	@Override
 	public void create () {
@@ -44,16 +44,39 @@ public class SnakeGame extends ApplicationAdapter {
 		//TODO make the snake collision
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			snake.x += 64 * Gdx.graphics.getDeltaTime();
+//			snake.x += 64 * Gdx.graphics.getDeltaTime();
+			direction = 'R';
 		}
+		
+		
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			snake.x -= 64 * Gdx.graphics.getDeltaTime();
+//			snake.x -= 64 * Gdx.graphics.getDeltaTime();
+			direction = 'L';
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			snake.y += 64 * Gdx.graphics.getDeltaTime();
+//			snake.y += 64 * Gdx.graphics.getDeltaTime();
+			direction = 'U';
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			snake.y -= 64 * Gdx.graphics.getDeltaTime();
+//			snake.y -= 64 * Gdx.graphics.getDeltaTime();
+			direction = 'D';
+		}
+
+		switch (direction) {
+		case 'R':
+			snake.x++;
+			break;
+		case 'L':
+			snake.x--;
+			break;
+		case 'U':
+			snake.y++;
+			break;
+		case 'D':
+			snake.y--;
+			break;
+		default:
+			break;
 		}
 	}
 	
