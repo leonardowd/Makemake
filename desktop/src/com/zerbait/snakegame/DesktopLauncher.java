@@ -2,7 +2,7 @@ package com.zerbait.snakegame;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.zerbait.snakegame.Main;
+import com.zerbait.snakegame.SnakeGame;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
@@ -10,6 +10,8 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("snake-game");
-		new Lwjgl3Application(new Main(), config);
+		config.setWindowedMode(800, 480);
+		config.useVsync(true);
+		new Lwjgl3Application(new SnakeGame(), config);
 	}
 }
