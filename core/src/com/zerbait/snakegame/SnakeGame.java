@@ -7,38 +7,37 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class SnakeGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture snakeImg;
 	private Rectangle snake;
+	private Array<Rectangle> snakeFull;
 	private OrthographicCamera camera;
 	private char direction = 'R';
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		snakeImg = new Texture(Gdx.files.internal("helloWorld.png"));
+		snakeImg = new Texture(Gdx.files.internal("snake.png"));
 		
 		//create the camera
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 480);
 		
-		//create the snake
-		snake = new Rectangle();
-		snake.x = 800/2 - 64/2;
-		snake.y = 480 / 2 - 64/2;
-		snake.width = 64;
-		snake.height = 64;
-		
+		snakeFull = new Array<Rectangle>();
+		spawnSnake();
 	}
 
 	@Override
 	public void render () {
 		ScreenUtils.clear(0, 0, 0, 1);
 		batch.begin();
-		batch.draw(snakeImg, snake.x, snake.y);
+		for(Rectangle snake : snakeFull) {
+			batch.draw(snakeImg, snake.x, snake.y);			
+		}
 		batch.end();
 		
 		//TODO make the snake collision
@@ -78,6 +77,16 @@ public class SnakeGame extends ApplicationAdapter {
 		default:
 			break;
 		}
+	}
+	
+	private void spawnSnake() {
+		//create the snake
+		snake = new Rectangle();
+		snake.x = 800/2 - 16/2;
+		snake.y = 480 / 2 - 16/2;
+		snake.width = 16;
+		snake.height = 16;
+		snakeFull.add(snake);
 	}
 	
 	@Override
