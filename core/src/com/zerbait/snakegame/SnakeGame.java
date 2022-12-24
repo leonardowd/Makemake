@@ -1,34 +1,55 @@
 package com.zerbait.snakegame;
 
+import java.util.Iterator;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class SnakeGame extends ApplicationAdapter {
-	SpriteBatch batch;
+	private SpriteBatch batch;
 	Texture snakeImg;
+	Texture foodImg;
+	private Sound biteSound;
 	private Rectangle snake;
+	private Rectangle food;
 	private Array<Rectangle> snakeFull;
 	private OrthographicCamera camera;
 	private char direction = 'R';
+	
+	//Adding the foods
+	private Array<Rectangle> foods;
+	private long lastFoodTime;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		snakeImg = new Texture(Gdx.files.internal("snake.png"));
+		foodImg = new Texture(Gdx.files.internal("food.png"));
 		
 		//create the camera
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 480);
 		
+		//load the sounds
+		//biteSound = Gdx.audio.newSound(Gdx.files.internal("biteSound.wav"));
+		//TODO fix the load's song bug
+		
 		snakeFull = new Array<Rectangle>();
 		spawnSnake();
+		
+		//instantiate foods
+		foods = new Array<Rectangle>();
+		spawnFood();
 	}
 
 	@Override
@@ -37,6 +58,9 @@ public class SnakeGame extends ApplicationAdapter {
 		batch.begin();
 		for(Rectangle snake : snakeFull) {
 			batch.draw(snakeImg, snake.x, snake.y);			
+		}
+		for(Rectangle food : foods) {
+			batch.draw(foodImg, food.x, food.y);
 		}
 		batch.end();
 		
@@ -77,6 +101,17 @@ public class SnakeGame extends ApplicationAdapter {
 		default:
 			break;
 		}
+		
+		for(Iterator<Rectangle> i = foods.iterator(); i.hasNext();) {
+			Rectangle food = i.next();
+			if(TimeUtils.millis() - lastFoodTime > 5000) {
+				spawnFood();
+			}
+			if(food.overlaps(snake)) {
+				i.remove();
+			}
+		}
+		
 	}
 	
 	private void spawnSnake() {
@@ -89,9 +124,20 @@ public class SnakeGame extends ApplicationAdapter {
 		snakeFull.add(snake);
 	}
 	
+	private void spawnFood() {
+		food = new Rectangle();
+		food.x = MathUtils.random(0, 800-16);
+		food.y = MathUtils.random(0, 480-16);
+		food.width = 16;
+		food.height = 16;
+		foods.add(food);
+		lastFoodTime = TimeUtils.millis();
+	}
+	
 	@Override
 	public void dispose () {
 		snakeImg.dispose();
+		foodImg.dispose();
 		batch.disableBlending();
 	}
 }
