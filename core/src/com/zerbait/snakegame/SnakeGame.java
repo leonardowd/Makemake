@@ -11,9 +11,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class SnakeGame extends ApplicationAdapter {
 	private SpriteBatch batch;
@@ -22,7 +22,7 @@ public class SnakeGame extends ApplicationAdapter {
 	private Sound biteSound;
 	private Rectangle snake;
 	private Rectangle food;
-	private Array<Rectangle> snakeFull;
+	private Array<Rectangle> snakeBody;
 	private OrthographicCamera camera;
 	private char direction = 'R';
 	
@@ -46,7 +46,7 @@ public class SnakeGame extends ApplicationAdapter {
 		//biteSound = Gdx.audio.newSound(Gdx.files.internal("biteSound.wav"));
 		//TODO fix the load's song bug
 		
-		snakeFull = new Array<Rectangle>();
+		snakeBody = new Array<Rectangle>();
 		spawnSnake();
 		
 		//instantiate foods
@@ -58,7 +58,7 @@ public class SnakeGame extends ApplicationAdapter {
 	public void render () {
 		ScreenUtils.clear(0, 0, 0, 1);
 		batch.begin();
-		for(Rectangle snake : snakeFull) {
+		for(Rectangle snake : snakeBody) {
 			batch.draw(snakeImg, snake.x, snake.y);			
 		}
 		for(Rectangle food : foods) {
@@ -118,7 +118,7 @@ public class SnakeGame extends ApplicationAdapter {
 		snake.y = 480 / 2 - 16/2;
 		snake.width = 16;
 		snake.height = 16;
-		snakeFull.add(snake);
+		snakeBody.add(snake);
 	}
 	
 	private void grow() {
@@ -129,8 +129,8 @@ public class SnakeGame extends ApplicationAdapter {
 		food = new Rectangle();
 		food.x = MathUtils.random(0, 800-10);
 		food.y = MathUtils.random(0, 480-10);
-		food.width = 10;
-		food.height = 10;
+		food.width = 16;
+		food.height = 16;
 		foods.add(food);
 	}
 	
