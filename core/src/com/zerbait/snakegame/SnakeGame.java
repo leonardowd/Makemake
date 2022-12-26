@@ -25,9 +25,6 @@ public class SnakeGame extends ApplicationAdapter {
 	private Array<Rectangle> snakeBody;
 	private OrthographicCamera camera;
 	private char direction = 'R';
-	private int snakeSize = 5;
-	
-	private Array<Vector2> position;
 	
 	//Adding the foods
 	private Array<Rectangle> foods;
@@ -46,11 +43,6 @@ public class SnakeGame extends ApplicationAdapter {
 		//biteSound = Gdx.audio.newSound(Gdx.files.internal("biteSound.wav"));
 		//TODO fix the load's song bug
 		
-		position = new Array<Vector2>();
-		for (int i = 0; i < snakeSize; i++) {
-			position.add(new Vector2(50+i*10, 50));
-		}
-		
 		snakeBody = new Array<Rectangle>();
 		spawnSnake();
 		
@@ -63,21 +55,14 @@ public class SnakeGame extends ApplicationAdapter {
 	public void render () {
 		ScreenUtils.clear(0, 0, 0, 1);
 		batch.begin();
-//		for(Rectangle snake : snakeBody) {
-//			batch.draw(snakeImg, snake.x, snake.y);			
-//		}
-		
-		for(int i = 0; i < snakeSize; i++) {
-			batch.draw(snakeImg, snake.x, snake.y);
+		for(Rectangle snake : snakeBody) {
+			batch.draw(snakeImg, snake.x, snake.y);			
 		}
 		
 		for(Rectangle food : foods) {
 			batch.draw(foodImg, food.x, food.y);
 		}
-		
-		for(int i = 0; i < position.size; i++) {
-			batch.draw(snakeImg, position.get(i).x, position.get(i).y);
-		}
+
 		
 		batch.end();
 		
@@ -98,16 +83,16 @@ public class SnakeGame extends ApplicationAdapter {
 
 		switch (direction) {
 		case 'R':
-			position.get(0).x += 3;
+			snake.x += 3;
 			break;
 		case 'L':
-			position.get(0).x -= 3;
+			snake.x -= 3;
 			break;
 		case 'U':
-			position.get(0).y += 3;
+			snake.y += 3;
 			break;
 		case 'D':
-			position.get(0).y -= 3;
+			snake.y -= 3;
 			break;
 		default:
 			break;
@@ -133,11 +118,7 @@ public class SnakeGame extends ApplicationAdapter {
 		snake.height = 16;
 		snakeBody.add(snake);
 	}
-	
-	//TODO
-	private void grow() {
-	}
-	
+
 	private void spawnFood() {
 		food = new Rectangle();
 		food.x = MathUtils.random(0, 800-10);
