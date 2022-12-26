@@ -28,9 +28,9 @@ public class SnakeGame extends ApplicationAdapter {
 	
 	//Adding the foods
 	private Array<Rectangle> foods;
-	private long lastFoodTime;
 	
-	//
+	//snakeBody
+	private int snakeLenght;
 	
 	@Override
 	public void create () {
@@ -71,8 +71,6 @@ public class SnakeGame extends ApplicationAdapter {
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && direction != 'L') {
 			direction = 'R';
 		}
-		
-		
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && direction != 'R') {
 			direction = 'L';
 		}
@@ -106,6 +104,8 @@ public class SnakeGame extends ApplicationAdapter {
 			if(food.overlaps(snake)) {
 				i.remove();
 				spawnFood();
+				snakeLenght++;
+				System.out.println(snakeLenght);
 			}
 		}
 		
@@ -121,6 +121,10 @@ public class SnakeGame extends ApplicationAdapter {
 		snakeFull.add(snake);
 	}
 	
+	private void grow() {
+		
+	}
+	
 	private void spawnFood() {
 		food = new Rectangle();
 		food.x = MathUtils.random(0, 800-10);
@@ -128,7 +132,6 @@ public class SnakeGame extends ApplicationAdapter {
 		food.width = 10;
 		food.height = 10;
 		foods.add(food);
-		lastFoodTime = TimeUtils.millis();
 	}
 	
 	@Override
