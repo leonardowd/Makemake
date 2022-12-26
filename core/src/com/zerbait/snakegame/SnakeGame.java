@@ -67,21 +67,17 @@ public class SnakeGame extends ApplicationAdapter {
 		//TODO make the snake collision
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-//			snake.x += 64 * Gdx.graphics.getDeltaTime();
 			direction = 'R';
 		}
 		
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-//			snake.x -= 64 * Gdx.graphics.getDeltaTime();
 			direction = 'L';
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-//			snake.y += 64 * Gdx.graphics.getDeltaTime();
 			direction = 'U';
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-//			snake.y -= 64 * Gdx.graphics.getDeltaTime();
 			direction = 'D';
 		}
 
