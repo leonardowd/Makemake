@@ -100,11 +100,10 @@ public class SnakeGame extends ApplicationAdapter {
 		
 		for(Iterator<Rectangle> i = foods.iterator(); i.hasNext();) {
 			Rectangle food = i.next();
-			if(TimeUtils.millis() - lastFoodTime > 5000) {
-				spawnFood();
-			}
+			
 			if(food.overlaps(snake)) {
 				i.remove();
+					spawnFood();
 			}
 		}
 		
