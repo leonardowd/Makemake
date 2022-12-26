@@ -28,7 +28,9 @@ public class SnakeGame extends ApplicationAdapter {
 	
 	//Adding the foods
 	private Array<Rectangle> foods;
-	private long lastFoodTime;
+	
+	//snakeBody
+	private int snakeLenght;
 	
 	@Override
 	public void create () {
@@ -66,18 +68,16 @@ public class SnakeGame extends ApplicationAdapter {
 		
 		//TODO make the snake collision
 		
-		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && direction != 'L') {
 			direction = 'R';
 		}
-		
-		
-		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+		if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && direction != 'R') {
 			direction = 'L';
 		}
-		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+		if (Gdx.input.isKeyPressed(Input.Keys.UP) && direction != 'D') {
 			direction = 'U';
 		}
-		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+		if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && direction != 'U') {
 			direction = 'D';
 		}
 
@@ -100,11 +100,12 @@ public class SnakeGame extends ApplicationAdapter {
 		
 		for(Iterator<Rectangle> i = foods.iterator(); i.hasNext();) {
 			Rectangle food = i.next();
-			if(TimeUtils.millis() - lastFoodTime > 5000) {
-				spawnFood();
-			}
+			
 			if(food.overlaps(snake)) {
 				i.remove();
+				spawnFood();
+				snakeLenght++;
+				System.out.println(snakeLenght);
 			}
 		}
 		
@@ -120,14 +121,17 @@ public class SnakeGame extends ApplicationAdapter {
 		snakeFull.add(snake);
 	}
 	
+	private void grow() {
+		
+	}
+	
 	private void spawnFood() {
 		food = new Rectangle();
-		food.x = MathUtils.random(0, 800-16);
-		food.y = MathUtils.random(0, 480-16);
-		food.width = 16;
-		food.height = 16;
+		food.x = MathUtils.random(0, 800-10);
+		food.y = MathUtils.random(0, 480-10);
+		food.width = 10;
+		food.height = 10;
 		foods.add(food);
-		lastFoodTime = TimeUtils.millis();
 	}
 	
 	@Override
