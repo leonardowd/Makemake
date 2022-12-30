@@ -25,6 +25,12 @@ public class SnakeGame extends ApplicationAdapter {
 	private Array<Rectangle> snakeBody;
 	private OrthographicCamera camera;
 	private char direction = 'R';
+	private static final int FOOD_WIDTH_HEIGHT = 16;
+	private static final int SNAKE_WIDTH_HEIGHT = 16;
+	
+	private static final int VIEWPORT_WIDTH = 800;
+	private static final int VIEWPORT_HEIGHT = 480;
+	private static final int SNAKE_STEP = 1;
 	
 	//Adding the foods
 	private Array<Rectangle> foods;
@@ -37,7 +43,7 @@ public class SnakeGame extends ApplicationAdapter {
 		
 		//create the camera
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800, 480);
+		camera.setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
 		
 		//load the sounds
 		//biteSound = Gdx.audio.newSound(Gdx.files.internal("biteSound.wav"));
@@ -112,19 +118,19 @@ public class SnakeGame extends ApplicationAdapter {
 	private void spawnSnake() {
 		//create the snake
 		snake = new Rectangle();
-		snake.x = 800/2 - 16/2;
-		snake.y = 480 / 2 - 16/2;
-		snake.width = 16;
-		snake.height = 16;
+		snake.x = VIEWPORT_WIDTH /2 - SNAKE_WIDTH_HEIGHT /2;
+		snake.y = VIEWPORT_HEIGHT / 2 - SNAKE_WIDTH_HEIGHT /2;
+		snake.width = SNAKE_WIDTH_HEIGHT;
+		snake.height = SNAKE_WIDTH_HEIGHT;
 		snakeBody.add(snake);
 	}
 
 	private void spawnFood() {
 		food = new Rectangle();
-		food.x = MathUtils.random(0, 800-10);
-		food.y = MathUtils.random(0, 480-10);
-		food.width = 16;
-		food.height = 16;
+		food.x = MathUtils.random(0, VIEWPORT_WIDTH - FOOD_WIDTH_HEIGHT);
+		food.y = MathUtils.random(0, VIEWPORT_HEIGHT - FOOD_WIDTH_HEIGHT);
+		food.width = FOOD_WIDTH_HEIGHT;
+		food.height = FOOD_WIDTH_HEIGHT;
 		foods.add(food);
 	}
 	
