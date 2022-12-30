@@ -30,7 +30,7 @@ public class SnakeGame extends ApplicationAdapter {
 	
 	private static final int VIEWPORT_WIDTH = 800;
 	private static final int VIEWPORT_HEIGHT = 480;
-	private static final int SNAKE_STEP = 1;
+	private static final double SNAKE_STEP = 1;
 	
 	//Adding the foods
 	private Array<Rectangle> foods = new Array<Rectangle>();
@@ -177,12 +177,15 @@ public class SnakeGame extends ApplicationAdapter {
 		snakeHead.y -= SNAKE_STEP;
 		for (final Rectangle part: snakeBody) {
 			part.y -= SNAKE_STEP;
+
 		}
 	}
 	
+	//TODO fix: snake body is moving in different speed than head
+	//TODO fix: the body is spawning distant from the head.
 	private void spawnBodypartAtLeft() {
 		// Numero de partes do corpo mais 1 (cabeça)
-		final int snakeSize = this.snakeBody.size + 1;
+		final int snakeSize = this.snakeBody.size + 10;
 
 		final Rectangle snakeBodyPart = new Rectangle();
 		snakeBodyPart.x = snakeHead.x - snakeSize * 16;
