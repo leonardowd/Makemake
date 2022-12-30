@@ -58,6 +58,7 @@ public class SnakeGame extends ApplicationAdapter {
 	public void render () {
 		ScreenUtils.clear(0, 0, 0, 1);
 		batch.begin();
+		batch.draw(snakeImg, snakeHead.x, snakeHead.y);
 		for(Rectangle snake : snakeBody) {
 			batch.draw(snakeImg, snake.x, snake.y);			
 		}
@@ -119,7 +120,7 @@ public class SnakeGame extends ApplicationAdapter {
 		snakeHead.y = VIEWPORT_HEIGHT / 2 - SNAKE_WIDTH_HEIGHT /2;
 		snakeHead.width = SNAKE_WIDTH_HEIGHT;
 		snakeHead.height = SNAKE_WIDTH_HEIGHT;
-		snakeBody.add(snakeHead);
+//		snakeBody.add(snakeHead);
 	}
 
 	private void spawnFood() {
@@ -185,7 +186,7 @@ public class SnakeGame extends ApplicationAdapter {
 	//TODO fix: the body is spawning distant from the head.
 	private void spawnBodypartAtLeft() {
 		// Numero de partes do corpo mais 1 (cabeça)
-		final int snakeSize = this.snakeBody.size + 10;
+		final int snakeSize = this.snakeBody.size + 1;
 
 		final Rectangle snakeBodyPart = new Rectangle();
 		snakeBodyPart.x = snakeHead.x - snakeSize * 16;
