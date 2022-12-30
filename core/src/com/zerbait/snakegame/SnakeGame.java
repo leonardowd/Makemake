@@ -106,6 +106,7 @@ public class SnakeGame extends ApplicationAdapter {
 			if(food.overlaps(snakeHead)) {
 				i.remove();
 				spawnFood();
+				eat();
 			}
 		}
 		
@@ -128,6 +129,27 @@ public class SnakeGame extends ApplicationAdapter {
 		food.width = FOOD_WIDTH_HEIGHT;
 		food.height = FOOD_WIDTH_HEIGHT;
 		foods.add(food);
+	}
+	
+	private void eat() {
+		switch (direction) {
+		// minhoquinha ta indo pra direita, logo o corpo spawna na esquerda
+		case 'R':
+			spawnBodypartAtLeft();
+			break;
+		case 'L':
+			spawnBodypartAtRight();
+			break;
+		case 'U':
+			spawnBodypartAtTop();
+			break;
+		case 'D':
+			spawnBodypartAtBottom();
+			break;
+		default:
+			break;
+		}
+
 	}
 	
 	private void moveSnakeToRight() {
@@ -156,6 +178,54 @@ public class SnakeGame extends ApplicationAdapter {
 		for (final Rectangle part: snakeBody) {
 			part.y -= SNAKE_STEP;
 		}
+	}
+	
+	private void spawnBodypartAtLeft() {
+		// Numero de partes do corpo mais 1 (cabeça)
+		final int snakeSize = this.snakeBody.size + 1;
+
+		final Rectangle snakeBodyPart = new Rectangle();
+		snakeBodyPart.x = snakeHead.x - snakeSize * 16;
+		snakeBodyPart.y = snakeHead.y;
+		snakeBodyPart.width = SNAKE_WIDTH_HEIGHT;
+		snakeBodyPart.height = SNAKE_WIDTH_HEIGHT;
+		snakeBody.add(snakeBodyPart);
+	}
+
+	private void spawnBodypartAtRight() {
+		// Numero de partes do corpo mais 1 (cabeça)
+		final int snakeSize = this.snakeBody.size + 1;
+
+		final Rectangle snakeBodyPart = new Rectangle();
+		snakeBodyPart.x = snakeHead.x + snakeSize * 16;
+		snakeBodyPart.y = snakeHead.y;
+		snakeBodyPart.width = SNAKE_WIDTH_HEIGHT;
+		snakeBodyPart.height = SNAKE_WIDTH_HEIGHT;
+		snakeBody.add(snakeBodyPart);
+	}
+	
+	private void spawnBodypartAtTop() {
+		// Numero de partes do corpo mais 1 (cabeça)
+		final int snakeSize = this.snakeBody.size + 1;
+
+		final Rectangle snakeBodyPart = new Rectangle();
+		snakeBodyPart.x = snakeHead.x;
+		snakeBodyPart.y = snakeHead.y + snakeSize;
+		snakeBodyPart.width = SNAKE_WIDTH_HEIGHT;
+		snakeBodyPart.height = SNAKE_WIDTH_HEIGHT;
+		snakeBody.add(snakeBodyPart);
+	}
+	
+	private void spawnBodypartAtBottom() {
+		// Numero de partes do corpo mais 1 (cabeça)
+		final int snakeSize = this.snakeBody.size + 1;
+
+		final Rectangle snakeBodyPart = new Rectangle();
+		snakeBodyPart.x = snakeHead.x;
+		snakeBodyPart.y = snakeHead.y + snakeSize;
+		snakeBodyPart.width = SNAKE_WIDTH_HEIGHT;
+		snakeBodyPart.height = SNAKE_WIDTH_HEIGHT;
+		snakeBody.add(snakeBodyPart);
 	}
 	
 	@Override
