@@ -20,9 +20,9 @@ public class SnakeGame extends ApplicationAdapter {
 	Texture snakeImg;
 	Texture foodImg;
 	private Sound biteSound;
-	private Rectangle snake;
+	private Rectangle snakeHead;
 	private Rectangle food;
-	private Array<Rectangle> snakeBody;
+	private Array<Rectangle> snakeBody = new Array<Rectangle>();
 	private OrthographicCamera camera;
 	private char direction = 'R';
 	private static final int FOOD_WIDTH_HEIGHT = 16;
@@ -33,7 +33,7 @@ public class SnakeGame extends ApplicationAdapter {
 	private static final int SNAKE_STEP = 1;
 	
 	//Adding the foods
-	private Array<Rectangle> foods;
+	private Array<Rectangle> foods = new Array<Rectangle>();
 	
 	@Override
 	public void create () {
@@ -49,11 +49,8 @@ public class SnakeGame extends ApplicationAdapter {
 		//biteSound = Gdx.audio.newSound(Gdx.files.internal("biteSound.wav"));
 		//TODO fix the load's song bug
 		
-		snakeBody = new Array<Rectangle>();
-		spawnSnake();
-		
-		//instantiate foods
-		foods = new Array<Rectangle>();
+		//instantiate snake and foods
+		spawnSnake();	
 		spawnFood();
 	}
 
@@ -64,11 +61,10 @@ public class SnakeGame extends ApplicationAdapter {
 		for(Rectangle snake : snakeBody) {
 			batch.draw(snakeImg, snake.x, snake.y);			
 		}
-		
+
 		for(Rectangle food : foods) {
 			batch.draw(foodImg, food.x, food.y);
 		}
-
 		
 		batch.end();
 		
@@ -86,19 +82,19 @@ public class SnakeGame extends ApplicationAdapter {
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && direction != 'U') {
 			direction = 'D';
 		}
-
+		
 		switch (direction) {
 		case 'R':
-			snake.x += 3;
+			moveSnakeToRight();
 			break;
 		case 'L':
-			snake.x -= 3;
+			moveSnakeToLeft();
 			break;
 		case 'U':
-			snake.y += 3;
+			moveSnakeUp();
 			break;
 		case 'D':
-			snake.y -= 3;
+			moveSnakeDown();
 			break;
 		default:
 			break;
@@ -107,7 +103,7 @@ public class SnakeGame extends ApplicationAdapter {
 		for(Iterator<Rectangle> i = foods.iterator(); i.hasNext();) {
 			Rectangle food = i.next();
 			
-			if(food.overlaps(snake)) {
+			if(food.overlaps(snakeHead)) {
 				i.remove();
 				spawnFood();
 			}
@@ -117,12 +113,12 @@ public class SnakeGame extends ApplicationAdapter {
 	
 	private void spawnSnake() {
 		//create the snake
-		snake = new Rectangle();
-		snake.x = VIEWPORT_WIDTH /2 - SNAKE_WIDTH_HEIGHT /2;
-		snake.y = VIEWPORT_HEIGHT / 2 - SNAKE_WIDTH_HEIGHT /2;
-		snake.width = SNAKE_WIDTH_HEIGHT;
-		snake.height = SNAKE_WIDTH_HEIGHT;
-		snakeBody.add(snake);
+		snakeHead = new Rectangle();
+		snakeHead.x = VIEWPORT_WIDTH /2 - SNAKE_WIDTH_HEIGHT /2;
+		snakeHead.y = VIEWPORT_HEIGHT / 2 - SNAKE_WIDTH_HEIGHT /2;
+		snakeHead.width = SNAKE_WIDTH_HEIGHT;
+		snakeHead.height = SNAKE_WIDTH_HEIGHT;
+		snakeBody.add(snakeHead);
 	}
 
 	private void spawnFood() {
@@ -132,6 +128,34 @@ public class SnakeGame extends ApplicationAdapter {
 		food.width = FOOD_WIDTH_HEIGHT;
 		food.height = FOOD_WIDTH_HEIGHT;
 		foods.add(food);
+	}
+	
+	private void moveSnakeToRight() {
+		snakeHead.x += SNAKE_STEP;
+		for (final Rectangle part: snakeBody) {
+			part.x += SNAKE_STEP;
+		}
+	}
+
+	private void moveSnakeToLeft() {
+		snakeHead.x -= SNAKE_STEP;
+		for (final Rectangle part: snakeBody) {
+			part.x -= SNAKE_STEP;
+		}
+	}
+	
+	private void moveSnakeUp() {
+		snakeHead.y += SNAKE_STEP;
+		for (final Rectangle part: snakeBody) {
+			part.y += SNAKE_STEP;
+		}
+	}
+
+	private void moveSnakeDown() {
+		snakeHead.y -= SNAKE_STEP;
+		for (final Rectangle part: snakeBody) {
+			part.y -= SNAKE_STEP;
+		}
 	}
 	
 	@Override
