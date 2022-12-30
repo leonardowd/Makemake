@@ -136,16 +136,20 @@ public class SnakeGame extends ApplicationAdapter {
 		switch (direction) {
 		// minhoquinha ta indo pra direita, logo o corpo spawna na esquerda
 		case 'R':
-			spawnBodypartAtLeft();
+//			spawnBodypartAtLeft();
+			moveSnakeToRight();
 			break;
 		case 'L':
-			spawnBodypartAtRight();
+//			spawnBodypartAtRight();
+			moveSnakeToLeft();
 			break;
 		case 'U':
-			spawnBodypartAtTop();
+//			spawnBodypartAtTop();
+			moveSnakeDown();
 			break;
 		case 'D':
-			spawnBodypartAtBottom();
+//			spawnBodypartAtBottom();
+			moveSnakeUp();
 			break;
 		default:
 			break;
@@ -155,82 +159,80 @@ public class SnakeGame extends ApplicationAdapter {
 	
 	private void moveSnakeToRight() {
 		snakeHead.x += SNAKE_STEP;
-		for (final Rectangle part: snakeBody) {
-			part.x += SNAKE_STEP;
-		}
+//		for (final Rectangle part: snakeBody) {
+//			part.x += SNAKE_STEP;
+//		}
 	}
 
 	private void moveSnakeToLeft() {
 		snakeHead.x -= SNAKE_STEP;
-		for (final Rectangle part: snakeBody) {
-			part.x -= SNAKE_STEP;
-		}
+//		for (final Rectangle part: snakeBody) {
+//			part.x -= SNAKE_STEP;
+//		}
 	}
 	
 	private void moveSnakeUp() {
 		snakeHead.y += SNAKE_STEP;
-		for (final Rectangle part: snakeBody) {
-			part.y += SNAKE_STEP;
-		}
+//		for (final Rectangle part: snakeBody) {
+//			part.y += SNAKE_STEP;
+//		}
 	}
 
 	private void moveSnakeDown() {
 		snakeHead.y -= SNAKE_STEP;
-		for (final Rectangle part: snakeBody) {
-			part.y -= SNAKE_STEP;
-
-		}
+//		for (final Rectangle part: snakeBody) {
+//			part.y -= SNAKE_STEP;
+//
+//		}
 	}
 	
-	//TODO fix: snake body is moving in different speed than head
-	//TODO fix: the body is spawning distant from the head.
-	private void spawnBodypartAtLeft() {
-		// Numero de partes do corpo mais 1 (cabeça)
-		final int snakeSize = this.snakeBody.size + 1;
-
-		final Rectangle snakeBodyPart = new Rectangle();
-		snakeBodyPart.x = snakeHead.x - snakeSize * 16;
-		snakeBodyPart.y = snakeHead.y;
-		snakeBodyPart.width = SNAKE_WIDTH_HEIGHT;
-		snakeBodyPart.height = SNAKE_WIDTH_HEIGHT;
-		snakeBody.add(snakeBodyPart);
-	}
-
-	private void spawnBodypartAtRight() {
-		// Numero de partes do corpo mais 1 (cabeça)
-		final int snakeSize = this.snakeBody.size + 1;
-
-		final Rectangle snakeBodyPart = new Rectangle();
-		snakeBodyPart.x = snakeHead.x + snakeSize * 16;
-		snakeBodyPart.y = snakeHead.y;
-		snakeBodyPart.width = SNAKE_WIDTH_HEIGHT;
-		snakeBodyPart.height = SNAKE_WIDTH_HEIGHT;
-		snakeBody.add(snakeBodyPart);
-	}
-	
-	private void spawnBodypartAtTop() {
-		// Numero de partes do corpo mais 1 (cabeça)
-		final int snakeSize = this.snakeBody.size + 1;
-
-		final Rectangle snakeBodyPart = new Rectangle();
-		snakeBodyPart.x = snakeHead.x;
-		snakeBodyPart.y = snakeHead.y + snakeSize;
-		snakeBodyPart.width = SNAKE_WIDTH_HEIGHT;
-		snakeBodyPart.height = SNAKE_WIDTH_HEIGHT;
-		snakeBody.add(snakeBodyPart);
-	}
-	
-	private void spawnBodypartAtBottom() {
-		// Numero de partes do corpo mais 1 (cabeça)
-		final int snakeSize = this.snakeBody.size + 1;
-
-		final Rectangle snakeBodyPart = new Rectangle();
-		snakeBodyPart.x = snakeHead.x;
-		snakeBodyPart.y = snakeHead.y + snakeSize;
-		snakeBodyPart.width = SNAKE_WIDTH_HEIGHT;
-		snakeBodyPart.height = SNAKE_WIDTH_HEIGHT;
-		snakeBody.add(snakeBodyPart);
-	}
+//	private void spawnBodypartAtLeft() {
+//		// Numero de partes do corpo mais 1 (cabeça)
+//		final int snakeSize = this.snakeBody.size + 1;
+//
+//		final Rectangle snakeBodyPart = new Rectangle();
+//		snakeBodyPart.x = snakeHead.x - snakeSize * 16;
+//		snakeBodyPart.y = snakeHead.y;
+//		snakeBodyPart.width = SNAKE_WIDTH_HEIGHT;
+//		snakeBodyPart.height = SNAKE_WIDTH_HEIGHT;
+//		snakeBody.add(snakeBodyPart);
+//	}
+//
+//	private void spawnBodypartAtRight() {
+//		// Numero de partes do corpo mais 1 (cabeça)
+//		final int snakeSize = this.snakeBody.size + 1;
+//
+//		final Rectangle snakeBodyPart = new Rectangle();
+//		snakeBodyPart.x = snakeHead.x + snakeSize * 16;
+//		snakeBodyPart.y = snakeHead.y;
+//		snakeBodyPart.width = SNAKE_WIDTH_HEIGHT;
+//		snakeBodyPart.height = SNAKE_WIDTH_HEIGHT;
+//		snakeBody.add(snakeBodyPart);
+//	}
+//	
+//	private void spawnBodypartAtTop() {
+//		// Numero de partes do corpo mais 1 (cabeça)
+//		final int snakeSize = this.snakeBody.size + 1;
+//
+//		final Rectangle snakeBodyPart = new Rectangle();
+//		snakeBodyPart.x = snakeHead.x;
+//		snakeBodyPart.y = snakeHead.y + snakeSize;
+//		snakeBodyPart.width = SNAKE_WIDTH_HEIGHT;
+//		snakeBodyPart.height = SNAKE_WIDTH_HEIGHT;
+//		snakeBody.add(snakeBodyPart);
+//	}
+//	
+//	private void spawnBodypartAtBottom() {
+//		// Numero de partes do corpo mais 1 (cabeça)
+//		final int snakeSize = this.snakeBody.size + 1;
+//
+//		final Rectangle snakeBodyPart = new Rectangle();
+//		snakeBodyPart.x = snakeHead.x;
+//		snakeBodyPart.y = snakeHead.y + snakeSize;
+//		snakeBodyPart.width = SNAKE_WIDTH_HEIGHT;
+//		snakeBodyPart.height = SNAKE_WIDTH_HEIGHT;
+//		snakeBody.add(snakeBodyPart);
+//	}
 	
 	@Override
 	public void dispose () {
