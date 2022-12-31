@@ -1,4 +1,4 @@
-package com.zerbait.snakegame;
+package com.zerbait.makemake;
 
 import java.util.Iterator;
 
@@ -16,23 +16,21 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class SnakeGame extends ApplicationAdapter {
+public class Makemake extends ApplicationAdapter {
 	private SpriteBatch batch;
-	Texture snakeImg;
-	Texture foodImg;
+	Texture spaceShipSoundImg;
+	Texture meteorImg;
 	private Sound takeSound;
-	private Music spaceShip;
-	private Rectangle snakeHead;
-	private Rectangle food;
-	private Array<Rectangle> snakeBody = new Array<Rectangle>();
+	private Music spaceShipSound;
+	private Rectangle spaceShip;
+	private Rectangle meteor;
 	private OrthographicCamera camera;
 	private char direction = 'R';
-	private static final int FOOD_WIDTH_HEIGHT = 32;
-	private static final int SNAKE_WIDTH_HEIGHT = 44;
+	private static final int meteor_WIDTH_HEIGHT = 32;
+	private static final int SPACESHIP_WIDTH_HEIGHT = 44;
 	
 	private static final int VIEWPORT_WIDTH = 800;
 	private static final int VIEWPORT_HEIGHT = 480;
-	private double snakeStep = 1;
 	private long speed = 100;
 	private int scoreboard = 0;
 	
@@ -40,8 +38,8 @@ public class SnakeGame extends ApplicationAdapter {
 	private BitmapFont scoreFont;
 	private BitmapFont gameOverFont;
 	
-	//Adding the foods
-	private Array<Rectangle> foods = new Array<Rectangle>();
+	//Adding the meteors
+	private Array<Rectangle> meteors = new Array<Rectangle>();
 	
 	//Collision
 	private int leftWall = 0;
@@ -53,8 +51,8 @@ public class SnakeGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		snakeImg = new Texture(Gdx.files.internal("shipBeige_manned.png"));
-		foodImg = new Texture(Gdx.files.internal("deathtex3.png"));
+		spaceShipSoundImg = new Texture(Gdx.files.internal("shipBeige_manned.png"));
+		meteorImg = new Texture(Gdx.files.internal("deathtex3.png"));
 		
 		//create the camera
 		camera = new OrthographicCamera();
@@ -66,15 +64,15 @@ public class SnakeGame extends ApplicationAdapter {
 		
 		//load the sounds
 		takeSound = Gdx.audio.newSound(Gdx.files.internal("takeSound.wav"));
-		spaceShip = Gdx.audio.newMusic(Gdx.files.internal("space_ship_floating_sound_1.mp3"));
+		spaceShipSound = Gdx.audio.newMusic(Gdx.files.internal("space_ship_floating_sound_1.mp3"));
 		
 		// start the background music immediately
-		spaceShip.setLooping(true);
-		spaceShip.play();
+		spaceShipSound.setLooping(true);
+		spaceShipSound.play();
 		
-		//instantiate snake and foods
-		spawnSnake();	
-		spawnFood();
+		//instantiate spaceShip and meteors
+		spawnSpaceShip();	
+		spawnmeteor();
 	}
 
 	@Override
@@ -83,13 +81,10 @@ public class SnakeGame extends ApplicationAdapter {
 		camera.update();
 		
 		batch.begin();
-		batch.draw(snakeImg, snakeHead.x, snakeHead.y);
-		for(Rectangle snake : snakeBody) {
-			batch.draw(snakeImg, snake.x, snake.y);			
-		}
+		batch.draw(spaceShipSoundImg, spaceShip.x, spaceShip.y);
 
-		for(Rectangle food : foods) {
-			batch.draw(foodImg, food.x, food.y);
+		for(Rectangle meteor : meteors) {
+			batch.draw(meteorImg, meteor.x, meteor.y);
 		}
 		
 		scoreFont.draw(batch, "Scoreboard: " + scoreboard, 10, 460);
@@ -111,16 +106,16 @@ public class SnakeGame extends ApplicationAdapter {
 		
 		switch (direction) {
 		case 'R':
-			moveSnakeToRight();
+			moveSpaceShipToRight();
 			break;
 		case 'L':
-			moveSnakeToLeft();
+			moveSpaceShipToLeft();
 			break;
 		case 'U':
-			moveSnakeUp();
+			moveSpaceShipUp();
 			break;
 		case 'D':
-			moveSnakeDown();
+			moveSpaceShipDown();
 			break;
 		default:
 			break;
@@ -128,14 +123,14 @@ public class SnakeGame extends ApplicationAdapter {
 		
 		detectWallColision();
 		
-		for(Iterator<Rectangle> i = foods.iterator(); i.hasNext();) {
-			Rectangle food = i.next();
+		for(Iterator<Rectangle> i = meteors.iterator(); i.hasNext();) {
+			Rectangle meteor = i.next();
 			
-			if(food.overlaps(snakeHead)) {
+			if(meteor.overlaps(spaceShip)) {
 				takeSound.play();
 				i.remove();
-				spawnFood();
-				eat();
+				spawnmeteor();
+				takeMeteor();
 			}
 		}
 		
@@ -143,37 +138,37 @@ public class SnakeGame extends ApplicationAdapter {
 		
 	}
 	
-	private void spawnSnake() {
-		//create the snake
-		snakeHead = new Rectangle();
-		snakeHead.x = VIEWPORT_WIDTH /2 - SNAKE_WIDTH_HEIGHT /2;
-		snakeHead.y = VIEWPORT_HEIGHT / 2 - SNAKE_WIDTH_HEIGHT /2;
-		snakeHead.width = SNAKE_WIDTH_HEIGHT;
-		snakeHead.height = SNAKE_WIDTH_HEIGHT;
+	private void spawnSpaceShip() {
+		//create the SpaceShip
+		spaceShip = new Rectangle();
+		spaceShip.x = VIEWPORT_WIDTH /2 - SPACESHIP_WIDTH_HEIGHT /2;
+		spaceShip.y = VIEWPORT_HEIGHT / 2 - SPACESHIP_WIDTH_HEIGHT /2;
+		spaceShip.width = SPACESHIP_WIDTH_HEIGHT;
+		spaceShip.height = SPACESHIP_WIDTH_HEIGHT;
 	}
 
-	private void spawnFood() {
-		food = new Rectangle();
-		food.x = MathUtils.random(0, VIEWPORT_WIDTH - FOOD_WIDTH_HEIGHT);
-		food.y = MathUtils.random(0, VIEWPORT_HEIGHT - FOOD_WIDTH_HEIGHT);
-		food.width = FOOD_WIDTH_HEIGHT;
-		food.height = FOOD_WIDTH_HEIGHT;
-		foods.add(food);
+	private void spawnmeteor() {
+		meteor = new Rectangle();
+		meteor.x = MathUtils.random(0, VIEWPORT_WIDTH - meteor_WIDTH_HEIGHT);
+		meteor.y = MathUtils.random(0, VIEWPORT_HEIGHT - meteor_WIDTH_HEIGHT);
+		meteor.width = meteor_WIDTH_HEIGHT;
+		meteor.height = meteor_WIDTH_HEIGHT;
+		meteors.add(meteor);
 	}
 	
-	private void eat() {
+	private void takeMeteor() {
 		switch (direction) {
 		case 'R':
-			moveSnakeToRight();
+			moveSpaceShipToRight();
 			break;
 		case 'L':
-			moveSnakeToLeft();
+			moveSpaceShipToLeft();
 			break;
 		case 'U':
-			moveSnakeDown();
+			moveSpaceShipDown();
 			break;
 		case 'D':
-			moveSnakeUp();
+			moveSpaceShipUp();
 			break;
 		default:
 			break;
@@ -183,20 +178,20 @@ public class SnakeGame extends ApplicationAdapter {
 		this.scoreboard = increaseScoreboard(scoreboard);
 	}
 	
-	private void moveSnakeToRight() {
-		snakeHead.x += speed * Gdx.graphics.getDeltaTime();
+	private void moveSpaceShipToRight() {
+		spaceShip.x += speed * Gdx.graphics.getDeltaTime();
 	}
 
-	private void moveSnakeToLeft() {
-		snakeHead.x -= speed * Gdx.graphics.getDeltaTime();
+	private void moveSpaceShipToLeft() {
+		spaceShip.x -= speed * Gdx.graphics.getDeltaTime();
 	}
 	
-	private void moveSnakeUp() {
-		snakeHead.y += speed * Gdx.graphics.getDeltaTime();
+	private void moveSpaceShipUp() {
+		spaceShip.y += speed * Gdx.graphics.getDeltaTime();
 	}
 
-	private void moveSnakeDown() {
-		snakeHead.y -= speed * Gdx.graphics.getDeltaTime();
+	private void moveSpaceShipDown() {
+		spaceShip.y -= speed * Gdx.graphics.getDeltaTime();
 	}
 	
 	private long increaseSpeed(long speed) {
@@ -214,9 +209,9 @@ public class SnakeGame extends ApplicationAdapter {
 	}
 	
 	private int increaseScoreboard(int score) {
-		if (this.snakeStep < 3) {
+		if (this.speed < 300) {
 			score += 5;
-		} else if (this.snakeStep < 8) {
+		} else if (this.speed < 500) {
 			score += 10;
 		} else {
 			score += 15;
@@ -226,8 +221,8 @@ public class SnakeGame extends ApplicationAdapter {
 	}
 	
 	private void detectWallColision() {
-		if (snakeHead.x <= leftWall || snakeHead.x >= righttWall 
-				|| snakeHead.y <= topWall || snakeHead.y >= downWall) {
+		if (spaceShip.x <= leftWall || spaceShip.x >= righttWall 
+				|| spaceShip.y <= topWall || spaceShip.y >= downWall) {
 			this.wallColision = true;
 		}
 	}
@@ -235,7 +230,7 @@ public class SnakeGame extends ApplicationAdapter {
 	private void gameOver() {
 		if (this.wallColision == true) {
 			batch.begin();
-			spaceShip.stop();
+			spaceShipSound.stop();
 			ScreenUtils.clear(0, 0, 0, 1);
 			scoreFont.draw(batch, "Scoreboard: " + scoreboard, VIEWPORT_WIDTH / 2 - 50, VIEWPORT_HEIGHT / 2 + 50);
 			scoreFont.draw(batch, "Close the game and reopen if you wanna play again", VIEWPORT_WIDTH / 2 - 180, VIEWPORT_HEIGHT / 2);
@@ -246,10 +241,10 @@ public class SnakeGame extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
-		snakeImg.dispose();
-		foodImg.dispose();
+		spaceShipSoundImg.dispose();
+		meteorImg.dispose();
 		takeSound.dispose();
-		spaceShip.dispose();
+		spaceShipSound.dispose();
 		batch.disableBlending();
 	}
 }
