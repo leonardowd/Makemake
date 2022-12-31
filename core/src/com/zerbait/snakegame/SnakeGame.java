@@ -25,8 +25,8 @@ public class SnakeGame extends ApplicationAdapter {
 	private Array<Rectangle> snakeBody = new Array<Rectangle>();
 	private OrthographicCamera camera;
 	private char direction = 'R';
-	private static final int FOOD_WIDTH_HEIGHT = 16;
-	private static final int SNAKE_WIDTH_HEIGHT = 16;
+	private static final int FOOD_WIDTH_HEIGHT = 32;
+	private static final int SNAKE_WIDTH_HEIGHT = 44;
 	
 	private static final int VIEWPORT_WIDTH = 800;
 	private static final int VIEWPORT_HEIGHT = 480;
@@ -51,8 +51,8 @@ public class SnakeGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		snakeImg = new Texture(Gdx.files.internal("snake.png"));
-		foodImg = new Texture(Gdx.files.internal("food.png"));
+		snakeImg = new Texture(Gdx.files.internal("shipBeige_manned.png"));
+		foodImg = new Texture(Gdx.files.internal("deathtex3.png"));
 		
 		//create the camera
 		camera = new OrthographicCamera();
