@@ -19,14 +19,14 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class Makemake extends ApplicationAdapter {
 	private SpriteBatch batch;
 	Texture spaceShipSoundImg;
-	Texture foodImg;
+	Texture meteorImg;
 	private Sound takeSound;
 	private Music spaceShipSound;
 	private Rectangle spaceShip;
-	private Rectangle food;
+	private Rectangle meteor;
 	private OrthographicCamera camera;
 	private char direction = 'R';
-	private static final int FOOD_WIDTH_HEIGHT = 32;
+	private static final int meteor_WIDTH_HEIGHT = 32;
 	private static final int SPACESHIP_WIDTH_HEIGHT = 44;
 	
 	private static final int VIEWPORT_WIDTH = 800;
@@ -38,8 +38,8 @@ public class Makemake extends ApplicationAdapter {
 	private BitmapFont scoreFont;
 	private BitmapFont gameOverFont;
 	
-	//Adding the foods
-	private Array<Rectangle> foods = new Array<Rectangle>();
+	//Adding the meteors
+	private Array<Rectangle> meteors = new Array<Rectangle>();
 	
 	//Collision
 	private int leftWall = 0;
@@ -52,7 +52,7 @@ public class Makemake extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		spaceShipSoundImg = new Texture(Gdx.files.internal("shipBeige_manned.png"));
-		foodImg = new Texture(Gdx.files.internal("deathtex3.png"));
+		meteorImg = new Texture(Gdx.files.internal("deathtex3.png"));
 		
 		//create the camera
 		camera = new OrthographicCamera();
@@ -70,9 +70,9 @@ public class Makemake extends ApplicationAdapter {
 		spaceShipSound.setLooping(true);
 		spaceShipSound.play();
 		
-		//instantiate spaceShip and foods
+		//instantiate spaceShip and meteors
 		spawnSpaceShip();	
-		spawnFood();
+		spawnmeteor();
 	}
 
 	@Override
@@ -83,8 +83,8 @@ public class Makemake extends ApplicationAdapter {
 		batch.begin();
 		batch.draw(spaceShipSoundImg, spaceShip.x, spaceShip.y);
 
-		for(Rectangle food : foods) {
-			batch.draw(foodImg, food.x, food.y);
+		for(Rectangle meteor : meteors) {
+			batch.draw(meteorImg, meteor.x, meteor.y);
 		}
 		
 		scoreFont.draw(batch, "Scoreboard: " + scoreboard, 10, 460);
@@ -123,14 +123,14 @@ public class Makemake extends ApplicationAdapter {
 		
 		detectWallColision();
 		
-		for(Iterator<Rectangle> i = foods.iterator(); i.hasNext();) {
-			Rectangle food = i.next();
+		for(Iterator<Rectangle> i = meteors.iterator(); i.hasNext();) {
+			Rectangle meteor = i.next();
 			
-			if(food.overlaps(spaceShip)) {
+			if(meteor.overlaps(spaceShip)) {
 				takeSound.play();
 				i.remove();
-				spawnFood();
-				eat();
+				spawnmeteor();
+				takeMeteor();
 			}
 		}
 		
@@ -147,16 +147,16 @@ public class Makemake extends ApplicationAdapter {
 		spaceShip.height = SPACESHIP_WIDTH_HEIGHT;
 	}
 
-	private void spawnFood() {
-		food = new Rectangle();
-		food.x = MathUtils.random(0, VIEWPORT_WIDTH - FOOD_WIDTH_HEIGHT);
-		food.y = MathUtils.random(0, VIEWPORT_HEIGHT - FOOD_WIDTH_HEIGHT);
-		food.width = FOOD_WIDTH_HEIGHT;
-		food.height = FOOD_WIDTH_HEIGHT;
-		foods.add(food);
+	private void spawnmeteor() {
+		meteor = new Rectangle();
+		meteor.x = MathUtils.random(0, VIEWPORT_WIDTH - meteor_WIDTH_HEIGHT);
+		meteor.y = MathUtils.random(0, VIEWPORT_HEIGHT - meteor_WIDTH_HEIGHT);
+		meteor.width = meteor_WIDTH_HEIGHT;
+		meteor.height = meteor_WIDTH_HEIGHT;
+		meteors.add(meteor);
 	}
 	
-	private void eat() {
+	private void takeMeteor() {
 		switch (direction) {
 		case 'R':
 			moveSpaceShipToRight();
@@ -242,7 +242,7 @@ public class Makemake extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		spaceShipSoundImg.dispose();
-		foodImg.dispose();
+		meteorImg.dispose();
 		takeSound.dispose();
 		spaceShipSound.dispose();
 		batch.disableBlending();
