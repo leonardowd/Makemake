@@ -31,6 +31,7 @@ public class SnakeGame extends ApplicationAdapter {
 	private static final int VIEWPORT_WIDTH = 800;
 	private static final int VIEWPORT_HEIGHT = 480;
 	private double snakeStep = 1;
+	private long speed = 100;
 	
 	private int scoreboard = 0;
 	
@@ -59,6 +60,8 @@ public class SnakeGame extends ApplicationAdapter {
 	@Override
 	public void render () {
 		ScreenUtils.clear(0, 0, 0, 1);
+		camera.update();
+		
 		batch.begin();
 		batch.draw(snakeImg, snakeHead.x, snakeHead.y);
 		for(Rectangle snake : snakeBody) {
@@ -136,7 +139,6 @@ public class SnakeGame extends ApplicationAdapter {
 	
 	private void eat() {
 		switch (direction) {
-		// minhoquinha ta indo pra direita, logo o corpo spawna na esquerda
 		case 'R':
 //			spawnBodypartAtLeft();
 			moveSnakeToRight();
@@ -157,55 +159,54 @@ public class SnakeGame extends ApplicationAdapter {
 			break;
 		}
 		
-		this.snakeStep = calculateStep(snakeStep);
+		this.speed = increaseSpeed(speed);
 		this.scoreboard = increaseScoreboard(scoreboard);
-		System.out.println("step: " + snakeStep);
+		System.out.println("speed: " + speed);
 		System.out.println("scoreboard: " + scoreboard);
 
 	}
 	
 	private void moveSnakeToRight() {
-		snakeHead.x += snakeStep;
+		snakeHead.x += speed * Gdx.graphics.getDeltaTime();
 //		for (final Rectangle part: snakeBody) {
 //			part.x += snakeStep;
 //		}
 	}
 
 	private void moveSnakeToLeft() {
-		snakeHead.x -= snakeStep;
+		snakeHead.x -= speed * Gdx.graphics.getDeltaTime();
 //		for (final Rectangle part: snakeBody) {
 //			part.x -= snakeStep;
 //		}
 	}
 	
 	private void moveSnakeUp() {
-		snakeHead.y += snakeStep;
+		snakeHead.y += speed * Gdx.graphics.getDeltaTime();
 //		for (final Rectangle part: snakeBody) {
 //			part.y += snakeStep;
 //		}
 	}
 
 	private void moveSnakeDown() {
-		snakeHead.y -= snakeStep;
+		snakeHead.y -= speed * Gdx.graphics.getDeltaTime();
 //		for (final Rectangle part: snakeBody) {
 //			part.y -= snakeStep;
 //
 //		}
 	}
 	
-	private double calculateStep(double snakeStep) {
-		
-		if (this.snakeStep < 3) {
-			snakeStep += 0.5;
-		} else if (this.snakeStep < 8) {
-			snakeStep += 0.3;
-		} else if (this.snakeStep < 12) {
-			snakeStep += 0.2;
-		} else {
-			snakeStep += 0.1;
-		}
-		
-		return snakeStep;
+	private long increaseSpeed(long speed) {
+		speed = this.speed;		
+			if (speed < 300) {
+				speed += 20;			
+			} else if (speed < 500) {
+				speed += 10;
+			} else if (speed < 800) {
+				speed += 5;
+			} else {
+				speed += 1;
+			}
+		return speed;
 	}
 	
 	private int increaseScoreboard(int score) {
