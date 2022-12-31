@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -31,6 +31,8 @@ public class SnakeGame extends ApplicationAdapter {
 	private static final int VIEWPORT_WIDTH = 800;
 	private static final int VIEWPORT_HEIGHT = 480;
 	private double snakeStep = 1;
+	
+	private int scoreboard = 0;
 	
 	//Adding the foods
 	private Array<Rectangle> foods = new Array<Rectangle>();
@@ -156,7 +158,9 @@ public class SnakeGame extends ApplicationAdapter {
 		}
 		
 		this.snakeStep = calculateStep(snakeStep);
-		System.out.println(snakeStep);
+		this.scoreboard = increaseScoreboard(scoreboard);
+		System.out.println("step: " + snakeStep);
+		System.out.println("scoreboard: " + scoreboard);
 
 	}
 	
@@ -202,6 +206,18 @@ public class SnakeGame extends ApplicationAdapter {
 		}
 		
 		return snakeStep;
+	}
+	
+	private int increaseScoreboard(int score) {
+		if (this.snakeStep < 3) {
+			score += 5;
+		} else if (this.snakeStep < 8) {
+			score += 10;
+		} else {
+			score += 15;
+		}
+		
+		return score;
 	}
 	
 //	private void spawnBodypartAtLeft() {
