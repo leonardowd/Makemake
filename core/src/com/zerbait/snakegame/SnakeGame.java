@@ -35,6 +35,13 @@ public class SnakeGame extends ApplicationAdapter {
 	
 	//Adding the foods
 	private Array<Rectangle> foods = new Array<Rectangle>();
+	
+	//Colision
+	private int leftWall = 0;
+	private int righttWall = VIEWPORT_WIDTH;
+	private int topWall = 0;
+	private int downWall = VIEWPORT_HEIGHT;
+	private boolean wallColision = false;
 		
 	@Override
 	public void create () {
@@ -103,6 +110,8 @@ public class SnakeGame extends ApplicationAdapter {
 		default:
 			break;
 		}
+		
+		detectWallColision();
 		
 		for(Iterator<Rectangle> i = foods.iterator(); i.hasNext();) {
 			Rectangle food = i.next();
@@ -217,6 +226,14 @@ public class SnakeGame extends ApplicationAdapter {
 		}
 		
 		return score;
+	}
+	
+	private void detectWallColision() {
+		if (snakeHead.x <= leftWall || snakeHead.x >= righttWall 
+				|| snakeHead.y <= topWall || snakeHead.y >= downWall) {
+			this.wallColision = true;
+			System.out.println("COLIDED!!");
+		}
 	}
 	
 //	private void spawnBodypartAtLeft() {
