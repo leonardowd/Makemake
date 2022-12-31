@@ -30,7 +30,7 @@ public class SnakeGame extends ApplicationAdapter {
 	
 	private static final int VIEWPORT_WIDTH = 800;
 	private static final int VIEWPORT_HEIGHT = 480;
-	private static final double SNAKE_STEP = 1;
+	private double snakeStep = 1;
 	
 	//Adding the foods
 	private Array<Rectangle> foods = new Array<Rectangle>();
@@ -154,36 +154,54 @@ public class SnakeGame extends ApplicationAdapter {
 		default:
 			break;
 		}
+		
+		this.snakeStep = calculateStep(snakeStep);
+		System.out.println(snakeStep);
 
 	}
 	
 	private void moveSnakeToRight() {
-		snakeHead.x += SNAKE_STEP;
+		snakeHead.x += snakeStep;
 //		for (final Rectangle part: snakeBody) {
-//			part.x += SNAKE_STEP;
+//			part.x += snakeStep;
 //		}
 	}
 
 	private void moveSnakeToLeft() {
-		snakeHead.x -= SNAKE_STEP;
+		snakeHead.x -= snakeStep;
 //		for (final Rectangle part: snakeBody) {
-//			part.x -= SNAKE_STEP;
+//			part.x -= snakeStep;
 //		}
 	}
 	
 	private void moveSnakeUp() {
-		snakeHead.y += SNAKE_STEP;
+		snakeHead.y += snakeStep;
 //		for (final Rectangle part: snakeBody) {
-//			part.y += SNAKE_STEP;
+//			part.y += snakeStep;
 //		}
 	}
 
 	private void moveSnakeDown() {
-		snakeHead.y -= SNAKE_STEP;
+		snakeHead.y -= snakeStep;
 //		for (final Rectangle part: snakeBody) {
-//			part.y -= SNAKE_STEP;
+//			part.y -= snakeStep;
 //
 //		}
+	}
+	
+	private double calculateStep(double snakeStep) {
+		
+		if (this.snakeStep < 3) {
+			snakeStep += 0.5;
+		} else if (this.snakeStep < 8) {
+			snakeStep += 0.3;
+		} else if (this.snakeStep < 12) {
+			snakeStep += 0.2;
+		} else {
+			snakeStep += 0.1;
+		}
+		
+		return snakeStep;
 	}
 	
 //	private void spawnBodypartAtLeft() {
