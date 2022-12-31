@@ -18,11 +18,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Makemake extends ApplicationAdapter {
 	private SpriteBatch batch;
-	Texture spaceShipImg;
+	Texture spaceShipSoundImg;
 	Texture foodImg;
 	private Sound takeSound;
-	private Music spaceShip;
-	private Rectangle snakeHead;
+	private Music spaceShipSound;
+	private Rectangle spaceShip;
 	private Rectangle food;
 	private OrthographicCamera camera;
 	private char direction = 'R';
@@ -51,7 +51,7 @@ public class Makemake extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		spaceShipImg = new Texture(Gdx.files.internal("shipBeige_manned.png"));
+		spaceShipSoundImg = new Texture(Gdx.files.internal("shipBeige_manned.png"));
 		foodImg = new Texture(Gdx.files.internal("deathtex3.png"));
 		
 		//create the camera
@@ -64,11 +64,11 @@ public class Makemake extends ApplicationAdapter {
 		
 		//load the sounds
 		takeSound = Gdx.audio.newSound(Gdx.files.internal("takeSound.wav"));
-		spaceShip = Gdx.audio.newMusic(Gdx.files.internal("space_ship_floating_sound_1.mp3"));
+		spaceShipSound = Gdx.audio.newMusic(Gdx.files.internal("space_ship_floating_sound_1.mp3"));
 		
 		// start the background music immediately
-		spaceShip.setLooping(true);
-		spaceShip.play();
+		spaceShipSound.setLooping(true);
+		spaceShipSound.play();
 		
 		//instantiate snake and foods
 		spawnSnake();	
@@ -81,7 +81,7 @@ public class Makemake extends ApplicationAdapter {
 		camera.update();
 		
 		batch.begin();
-		batch.draw(spaceShipImg, snakeHead.x, snakeHead.y);
+		batch.draw(spaceShipSoundImg, spaceShip.x, spaceShip.y);
 
 		for(Rectangle food : foods) {
 			batch.draw(foodImg, food.x, food.y);
@@ -126,7 +126,7 @@ public class Makemake extends ApplicationAdapter {
 		for(Iterator<Rectangle> i = foods.iterator(); i.hasNext();) {
 			Rectangle food = i.next();
 			
-			if(food.overlaps(snakeHead)) {
+			if(food.overlaps(spaceShip)) {
 				takeSound.play();
 				i.remove();
 				spawnFood();
@@ -140,11 +140,11 @@ public class Makemake extends ApplicationAdapter {
 	
 	private void spawnSnake() {
 		//create the snake
-		snakeHead = new Rectangle();
-		snakeHead.x = VIEWPORT_WIDTH /2 - SNAKE_WIDTH_HEIGHT /2;
-		snakeHead.y = VIEWPORT_HEIGHT / 2 - SNAKE_WIDTH_HEIGHT /2;
-		snakeHead.width = SNAKE_WIDTH_HEIGHT;
-		snakeHead.height = SNAKE_WIDTH_HEIGHT;
+		spaceShip = new Rectangle();
+		spaceShip.x = VIEWPORT_WIDTH /2 - SNAKE_WIDTH_HEIGHT /2;
+		spaceShip.y = VIEWPORT_HEIGHT / 2 - SNAKE_WIDTH_HEIGHT /2;
+		spaceShip.width = SNAKE_WIDTH_HEIGHT;
+		spaceShip.height = SNAKE_WIDTH_HEIGHT;
 	}
 
 	private void spawnFood() {
@@ -179,19 +179,19 @@ public class Makemake extends ApplicationAdapter {
 	}
 	
 	private void moveSnakeToRight() {
-		snakeHead.x += speed * Gdx.graphics.getDeltaTime();
+		spaceShip.x += speed * Gdx.graphics.getDeltaTime();
 	}
 
 	private void moveSnakeToLeft() {
-		snakeHead.x -= speed * Gdx.graphics.getDeltaTime();
+		spaceShip.x -= speed * Gdx.graphics.getDeltaTime();
 	}
 	
 	private void moveSnakeUp() {
-		snakeHead.y += speed * Gdx.graphics.getDeltaTime();
+		spaceShip.y += speed * Gdx.graphics.getDeltaTime();
 	}
 
 	private void moveSnakeDown() {
-		snakeHead.y -= speed * Gdx.graphics.getDeltaTime();
+		spaceShip.y -= speed * Gdx.graphics.getDeltaTime();
 	}
 	
 	private long increaseSpeed(long speed) {
@@ -221,8 +221,8 @@ public class Makemake extends ApplicationAdapter {
 	}
 	
 	private void detectWallColision() {
-		if (snakeHead.x <= leftWall || snakeHead.x >= righttWall 
-				|| snakeHead.y <= topWall || snakeHead.y >= downWall) {
+		if (spaceShip.x <= leftWall || spaceShip.x >= righttWall 
+				|| spaceShip.y <= topWall || spaceShip.y >= downWall) {
 			this.wallColision = true;
 		}
 	}
@@ -230,7 +230,7 @@ public class Makemake extends ApplicationAdapter {
 	private void gameOver() {
 		if (this.wallColision == true) {
 			batch.begin();
-			spaceShip.stop();
+			spaceShipSound.stop();
 			ScreenUtils.clear(0, 0, 0, 1);
 			scoreFont.draw(batch, "Scoreboard: " + scoreboard, VIEWPORT_WIDTH / 2 - 50, VIEWPORT_HEIGHT / 2 + 50);
 			scoreFont.draw(batch, "Close the game and reopen if you wanna play again", VIEWPORT_WIDTH / 2 - 180, VIEWPORT_HEIGHT / 2);
@@ -241,10 +241,10 @@ public class Makemake extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
-		spaceShipImg.dispose();
+		spaceShipSoundImg.dispose();
 		foodImg.dispose();
 		takeSound.dispose();
-		spaceShip.dispose();
+		spaceShipSound.dispose();
 		batch.disableBlending();
 	}
 }
