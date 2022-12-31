@@ -1,4 +1,4 @@
-package com.zerbait.snakegame;
+package com.zerbait.makemake;
 
 import java.util.Iterator;
 
@@ -16,9 +16,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-public class SnakeGame extends ApplicationAdapter {
+public class Makemake extends ApplicationAdapter {
 	private SpriteBatch batch;
-	Texture snakeImg;
+	Texture spaceShipImg;
 	Texture foodImg;
 	private Sound takeSound;
 	private Music spaceShip;
@@ -53,7 +53,7 @@ public class SnakeGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		snakeImg = new Texture(Gdx.files.internal("shipBeige_manned.png"));
+		spaceShipImg = new Texture(Gdx.files.internal("shipBeige_manned.png"));
 		foodImg = new Texture(Gdx.files.internal("deathtex3.png"));
 		
 		//create the camera
@@ -83,9 +83,9 @@ public class SnakeGame extends ApplicationAdapter {
 		camera.update();
 		
 		batch.begin();
-		batch.draw(snakeImg, snakeHead.x, snakeHead.y);
+		batch.draw(spaceShipImg, snakeHead.x, snakeHead.y);
 		for(Rectangle snake : snakeBody) {
-			batch.draw(snakeImg, snake.x, snake.y);			
+			batch.draw(spaceShipImg, snake.x, snake.y);			
 		}
 
 		for(Rectangle food : foods) {
@@ -246,7 +246,7 @@ public class SnakeGame extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
-		snakeImg.dispose();
+		spaceShipImg.dispose();
 		foodImg.dispose();
 		takeSound.dispose();
 		spaceShip.dispose();
