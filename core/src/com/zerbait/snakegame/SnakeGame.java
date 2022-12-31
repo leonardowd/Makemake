@@ -68,7 +68,7 @@ public class SnakeGame extends ApplicationAdapter {
 		takeSound = Gdx.audio.newSound(Gdx.files.internal("takeSound.wav"));
 		spaceShip = Gdx.audio.newMusic(Gdx.files.internal("space_ship_floating_sound_1.mp3"));
 		
-		// start the playback of the background music immediately
+		// start the background music immediately
 		spaceShip.setLooping(true);
 		spaceShip.play();
 		
@@ -95,8 +95,6 @@ public class SnakeGame extends ApplicationAdapter {
 		scoreFont.draw(batch, "Scoreboard: " + scoreboard, 10, 460);
 		
 		batch.end();
-		
-		//TODO make the snake collision
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 			direction = 'R';
@@ -152,7 +150,6 @@ public class SnakeGame extends ApplicationAdapter {
 		snakeHead.y = VIEWPORT_HEIGHT / 2 - SNAKE_WIDTH_HEIGHT /2;
 		snakeHead.width = SNAKE_WIDTH_HEIGHT;
 		snakeHead.height = SNAKE_WIDTH_HEIGHT;
-//		snakeBody.add(snakeHead);
 	}
 
 	private void spawnFood() {
@@ -167,19 +164,15 @@ public class SnakeGame extends ApplicationAdapter {
 	private void eat() {
 		switch (direction) {
 		case 'R':
-//			spawnBodypartAtLeft();
 			moveSnakeToRight();
 			break;
 		case 'L':
-//			spawnBodypartAtRight();
 			moveSnakeToLeft();
 			break;
 		case 'U':
-//			spawnBodypartAtTop();
 			moveSnakeDown();
 			break;
 		case 'D':
-//			spawnBodypartAtBottom();
 			moveSnakeUp();
 			break;
 		default:
@@ -192,31 +185,18 @@ public class SnakeGame extends ApplicationAdapter {
 	
 	private void moveSnakeToRight() {
 		snakeHead.x += speed * Gdx.graphics.getDeltaTime();
-//		for (final Rectangle part: snakeBody) {
-//			part.x += snakeStep;
-//		}
 	}
 
 	private void moveSnakeToLeft() {
 		snakeHead.x -= speed * Gdx.graphics.getDeltaTime();
-//		for (final Rectangle part: snakeBody) {
-//			part.x -= snakeStep;
-//		}
 	}
 	
 	private void moveSnakeUp() {
 		snakeHead.y += speed * Gdx.graphics.getDeltaTime();
-//		for (final Rectangle part: snakeBody) {
-//			part.y += snakeStep;
-//		}
 	}
 
 	private void moveSnakeDown() {
 		snakeHead.y -= speed * Gdx.graphics.getDeltaTime();
-//		for (final Rectangle part: snakeBody) {
-//			part.y -= snakeStep;
-//
-//		}
 	}
 	
 	private long increaseSpeed(long speed) {
@@ -263,54 +243,6 @@ public class SnakeGame extends ApplicationAdapter {
 			batch.end();
 		}
 	}
-	
-//	private void spawnBodypartAtLeft() {
-//		// Numero de partes do corpo mais 1 (cabeça)
-//		final int snakeSize = this.snakeBody.size + 1;
-//
-//		final Rectangle snakeBodyPart = new Rectangle();
-//		snakeBodyPart.x = snakeHead.x - snakeSize * 16;
-//		snakeBodyPart.y = snakeHead.y;
-//		snakeBodyPart.width = SNAKE_WIDTH_HEIGHT;
-//		snakeBodyPart.height = SNAKE_WIDTH_HEIGHT;
-//		snakeBody.add(snakeBodyPart);
-//	}
-//
-//	private void spawnBodypartAtRight() {
-//		// Numero de partes do corpo mais 1 (cabeça)
-//		final int snakeSize = this.snakeBody.size + 1;
-//
-//		final Rectangle snakeBodyPart = new Rectangle();
-//		snakeBodyPart.x = snakeHead.x + snakeSize * 16;
-//		snakeBodyPart.y = snakeHead.y;
-//		snakeBodyPart.width = SNAKE_WIDTH_HEIGHT;
-//		snakeBodyPart.height = SNAKE_WIDTH_HEIGHT;
-//		snakeBody.add(snakeBodyPart);
-//	}
-//	
-//	private void spawnBodypartAtTop() {
-//		// Numero de partes do corpo mais 1 (cabeça)
-//		final int snakeSize = this.snakeBody.size + 1;
-//
-//		final Rectangle snakeBodyPart = new Rectangle();
-//		snakeBodyPart.x = snakeHead.x;
-//		snakeBodyPart.y = snakeHead.y + snakeSize;
-//		snakeBodyPart.width = SNAKE_WIDTH_HEIGHT;
-//		snakeBodyPart.height = SNAKE_WIDTH_HEIGHT;
-//		snakeBody.add(snakeBodyPart);
-//	}
-//	
-//	private void spawnBodypartAtBottom() {
-//		// Numero de partes do corpo mais 1 (cabeça)
-//		final int snakeSize = this.snakeBody.size + 1;
-//
-//		final Rectangle snakeBodyPart = new Rectangle();
-//		snakeBodyPart.x = snakeHead.x;
-//		snakeBodyPart.y = snakeHead.y + snakeSize;
-//		snakeBodyPart.width = SNAKE_WIDTH_HEIGHT;
-//		snakeBodyPart.height = SNAKE_WIDTH_HEIGHT;
-//		snakeBody.add(snakeBodyPart);
-//	}
 	
 	@Override
 	public void dispose () {
