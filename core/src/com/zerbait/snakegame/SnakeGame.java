@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -18,7 +19,6 @@ public class SnakeGame extends ApplicationAdapter {
 	private SpriteBatch batch;
 	Texture snakeImg;
 	Texture foodImg;
-	Texture gameOverImg;
 	private Sound biteSound;
 	private Rectangle snakeHead;
 	private Rectangle food;
@@ -34,10 +34,14 @@ public class SnakeGame extends ApplicationAdapter {
 	private long speed = 100;
 	private int scoreboard = 0;
 	
+	//bitmap
+	private BitmapFont scoreFont;
+	private BitmapFont gameOverFont;
+	
 	//Adding the foods
 	private Array<Rectangle> foods = new Array<Rectangle>();
 	
-	//Colision
+	//Collision
 	private int leftWall = 0;
 	private int righttWall = VIEWPORT_WIDTH;
 	private int topWall = 0;
@@ -49,11 +53,14 @@ public class SnakeGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		snakeImg = new Texture(Gdx.files.internal("snake.png"));
 		foodImg = new Texture(Gdx.files.internal("food.png"));
-		gameOverImg = new Texture(Gdx.files.internal("gameOver.png"));
 		
 		//create the camera
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+		
+		//bitmap font
+		scoreFont = new BitmapFont(Gdx.files.internal("font.fnt"), Gdx.files.internal("font.png"), false);
+		gameOverFont = new BitmapFont(Gdx.files.internal("gameOverFont.fnt"), Gdx.files.internal("gameOverFont.png"), false);
 		
 		//load the sounds
 		//biteSound = Gdx.audio.newSound(Gdx.files.internal("biteSound.wav"));
@@ -78,6 +85,8 @@ public class SnakeGame extends ApplicationAdapter {
 		for(Rectangle food : foods) {
 			batch.draw(foodImg, food.x, food.y);
 		}
+		
+		scoreFont.draw(batch, "Scoreboard: " + scoreboard, 10, 460);
 		
 		batch.end();
 		
@@ -238,12 +247,12 @@ public class SnakeGame extends ApplicationAdapter {
 	
 	private void gameOver() {
 		if (this.wallColision == true) {
-//			batch.begin();
-//			batch.draw(gameOverImg, 0, 0);
-//			batch.end();
-			ScreenUtils.clear(0, 2, 5, 1);
-			System.out.println("GAME OVER!!");
-			System.out.println("Scoreboard: " + scoreboard);
+			batch.begin();
+			ScreenUtils.clear(0, 0, 0, 1);
+			scoreFont.draw(batch, "Scoreboard: " + scoreboard, VIEWPORT_WIDTH / 2 - 50, VIEWPORT_HEIGHT / 2 + 50);
+			scoreFont.draw(batch, "Close the game and reopen if you wanna play again", VIEWPORT_WIDTH / 2 - 180, VIEWPORT_HEIGHT / 2);
+			gameOverFont.draw(batch, "GAME OVER", VIEWPORT_WIDTH / 2 - 100, VIEWPORT_HEIGHT / 2 + 100);
+			batch.end();
 		}
 	}
 	
