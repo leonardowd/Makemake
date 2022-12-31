@@ -27,7 +27,7 @@ public class Makemake extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private char direction = 'R';
 	private static final int FOOD_WIDTH_HEIGHT = 32;
-	private static final int SNAKE_WIDTH_HEIGHT = 44;
+	private static final int SPACESHIP_WIDTH_HEIGHT = 44;
 	
 	private static final int VIEWPORT_WIDTH = 800;
 	private static final int VIEWPORT_HEIGHT = 480;
@@ -70,8 +70,8 @@ public class Makemake extends ApplicationAdapter {
 		spaceShipSound.setLooping(true);
 		spaceShipSound.play();
 		
-		//instantiate snake and foods
-		spawnSnake();	
+		//instantiate spaceShip and foods
+		spawnSpaceShip();	
 		spawnFood();
 	}
 
@@ -106,16 +106,16 @@ public class Makemake extends ApplicationAdapter {
 		
 		switch (direction) {
 		case 'R':
-			moveSnakeToRight();
+			moveSpaceShipToRight();
 			break;
 		case 'L':
-			moveSnakeToLeft();
+			moveSpaceShipToLeft();
 			break;
 		case 'U':
-			moveSnakeUp();
+			moveSpaceShipUp();
 			break;
 		case 'D':
-			moveSnakeDown();
+			moveSpaceShipDown();
 			break;
 		default:
 			break;
@@ -138,13 +138,13 @@ public class Makemake extends ApplicationAdapter {
 		
 	}
 	
-	private void spawnSnake() {
-		//create the snake
+	private void spawnSpaceShip() {
+		//create the SpaceShip
 		spaceShip = new Rectangle();
-		spaceShip.x = VIEWPORT_WIDTH /2 - SNAKE_WIDTH_HEIGHT /2;
-		spaceShip.y = VIEWPORT_HEIGHT / 2 - SNAKE_WIDTH_HEIGHT /2;
-		spaceShip.width = SNAKE_WIDTH_HEIGHT;
-		spaceShip.height = SNAKE_WIDTH_HEIGHT;
+		spaceShip.x = VIEWPORT_WIDTH /2 - SPACESHIP_WIDTH_HEIGHT /2;
+		spaceShip.y = VIEWPORT_HEIGHT / 2 - SPACESHIP_WIDTH_HEIGHT /2;
+		spaceShip.width = SPACESHIP_WIDTH_HEIGHT;
+		spaceShip.height = SPACESHIP_WIDTH_HEIGHT;
 	}
 
 	private void spawnFood() {
@@ -159,16 +159,16 @@ public class Makemake extends ApplicationAdapter {
 	private void eat() {
 		switch (direction) {
 		case 'R':
-			moveSnakeToRight();
+			moveSpaceShipToRight();
 			break;
 		case 'L':
-			moveSnakeToLeft();
+			moveSpaceShipToLeft();
 			break;
 		case 'U':
-			moveSnakeDown();
+			moveSpaceShipDown();
 			break;
 		case 'D':
-			moveSnakeUp();
+			moveSpaceShipUp();
 			break;
 		default:
 			break;
@@ -178,19 +178,19 @@ public class Makemake extends ApplicationAdapter {
 		this.scoreboard = increaseScoreboard(scoreboard);
 	}
 	
-	private void moveSnakeToRight() {
+	private void moveSpaceShipToRight() {
 		spaceShip.x += speed * Gdx.graphics.getDeltaTime();
 	}
 
-	private void moveSnakeToLeft() {
+	private void moveSpaceShipToLeft() {
 		spaceShip.x -= speed * Gdx.graphics.getDeltaTime();
 	}
 	
-	private void moveSnakeUp() {
+	private void moveSpaceShipUp() {
 		spaceShip.y += speed * Gdx.graphics.getDeltaTime();
 	}
 
-	private void moveSnakeDown() {
+	private void moveSpaceShipDown() {
 		spaceShip.y -= speed * Gdx.graphics.getDeltaTime();
 	}
 	
