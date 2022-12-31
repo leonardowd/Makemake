@@ -19,7 +19,7 @@ public class SnakeGame extends ApplicationAdapter {
 	private SpriteBatch batch;
 	Texture snakeImg;
 	Texture foodImg;
-	private Sound biteSound;
+	private Sound ship;
 	private Rectangle snakeHead;
 	private Rectangle food;
 	private Array<Rectangle> snakeBody = new Array<Rectangle>();
@@ -92,16 +92,16 @@ public class SnakeGame extends ApplicationAdapter {
 		
 		//TODO make the snake collision
 		
-		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && direction != 'L') {
+		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 			direction = 'R';
 		}
-		if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && direction != 'R') {
+		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 			direction = 'L';
 		}
-		if (Gdx.input.isKeyPressed(Input.Keys.UP) && direction != 'D') {
+		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
 			direction = 'U';
 		}
-		if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && direction != 'U') {
+		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 			direction = 'D';
 		}
 		
