@@ -24,7 +24,6 @@ public class Makemake extends ApplicationAdapter {
 	private Music spaceShip;
 	private Rectangle snakeHead;
 	private Rectangle food;
-	private Array<Rectangle> snakeBody = new Array<Rectangle>();
 	private OrthographicCamera camera;
 	private char direction = 'R';
 	private static final int FOOD_WIDTH_HEIGHT = 32;
@@ -32,7 +31,6 @@ public class Makemake extends ApplicationAdapter {
 	
 	private static final int VIEWPORT_WIDTH = 800;
 	private static final int VIEWPORT_HEIGHT = 480;
-	private double snakeStep = 1;
 	private long speed = 100;
 	private int scoreboard = 0;
 	
@@ -84,9 +82,6 @@ public class Makemake extends ApplicationAdapter {
 		
 		batch.begin();
 		batch.draw(spaceShipImg, snakeHead.x, snakeHead.y);
-		for(Rectangle snake : snakeBody) {
-			batch.draw(spaceShipImg, snake.x, snake.y);			
-		}
 
 		for(Rectangle food : foods) {
 			batch.draw(foodImg, food.x, food.y);
@@ -214,9 +209,9 @@ public class Makemake extends ApplicationAdapter {
 	}
 	
 	private int increaseScoreboard(int score) {
-		if (this.snakeStep < 3) {
+		if (this.speed < 300) {
 			score += 5;
-		} else if (this.snakeStep < 8) {
+		} else if (this.speed < 500) {
 			score += 10;
 		} else {
 			score += 15;
