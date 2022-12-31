@@ -5,6 +5,7 @@ import java.util.Iterator;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,7 +20,8 @@ public class SnakeGame extends ApplicationAdapter {
 	private SpriteBatch batch;
 	Texture snakeImg;
 	Texture foodImg;
-	private Sound ship;
+	private Sound takeSound;
+	private Music spaceShip;
 	private Rectangle snakeHead;
 	private Rectangle food;
 	private Array<Rectangle> snakeBody = new Array<Rectangle>();
@@ -63,8 +65,12 @@ public class SnakeGame extends ApplicationAdapter {
 		gameOverFont = new BitmapFont(Gdx.files.internal("gameOverFont.fnt"), Gdx.files.internal("gameOverFont.png"), false);
 		
 		//load the sounds
-		//biteSound = Gdx.audio.newSound(Gdx.files.internal("biteSound.wav"));
-		//TODO fix the load's song bug
+		takeSound = Gdx.audio.newSound(Gdx.files.internal("takeSound.wav"));
+		spaceShip = Gdx.audio.newMusic(Gdx.files.internal("space_ship_floating_sound_1.mp3"));
+		
+		// start the playback of the background music immediately
+		spaceShip.setLooping(true);
+		spaceShip.play();
 		
 		//instantiate snake and foods
 		spawnSnake();	
@@ -128,6 +134,7 @@ public class SnakeGame extends ApplicationAdapter {
 			Rectangle food = i.next();
 			
 			if(food.overlaps(snakeHead)) {
+				takeSound.play();
 				i.remove();
 				spawnFood();
 				eat();
@@ -248,6 +255,7 @@ public class SnakeGame extends ApplicationAdapter {
 	private void gameOver() {
 		if (this.wallColision == true) {
 			batch.begin();
+			spaceShip.stop();
 			ScreenUtils.clear(0, 0, 0, 1);
 			scoreFont.draw(batch, "Scoreboard: " + scoreboard, VIEWPORT_WIDTH / 2 - 50, VIEWPORT_HEIGHT / 2 + 50);
 			scoreFont.draw(batch, "Close the game and reopen if you wanna play again", VIEWPORT_WIDTH / 2 - 180, VIEWPORT_HEIGHT / 2);
@@ -308,6 +316,8 @@ public class SnakeGame extends ApplicationAdapter {
 	public void dispose () {
 		snakeImg.dispose();
 		foodImg.dispose();
+		takeSound.dispose();
+		spaceShip.dispose();
 		batch.disableBlending();
 	}
 }
