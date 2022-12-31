@@ -18,6 +18,7 @@ public class SnakeGame extends ApplicationAdapter {
 	private SpriteBatch batch;
 	Texture snakeImg;
 	Texture foodImg;
+	Texture gameOverImg;
 	private Sound biteSound;
 	private Rectangle snakeHead;
 	private Rectangle food;
@@ -48,6 +49,7 @@ public class SnakeGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		snakeImg = new Texture(Gdx.files.internal("snake.png"));
 		foodImg = new Texture(Gdx.files.internal("food.png"));
+		gameOverImg = new Texture(Gdx.files.internal("gameOver.png"));
 		
 		//create the camera
 		camera = new OrthographicCamera();
@@ -123,6 +125,8 @@ public class SnakeGame extends ApplicationAdapter {
 			}
 		}
 		
+		gameOver();
+		
 	}
 	
 	private void spawnSnake() {
@@ -168,9 +172,6 @@ public class SnakeGame extends ApplicationAdapter {
 		
 		this.speed = increaseSpeed(speed);
 		this.scoreboard = increaseScoreboard(scoreboard);
-		System.out.println("speed: " + speed);
-		System.out.println("scoreboard: " + scoreboard);
-
 	}
 	
 	private void moveSnakeToRight() {
@@ -232,7 +233,17 @@ public class SnakeGame extends ApplicationAdapter {
 		if (snakeHead.x <= leftWall || snakeHead.x >= righttWall 
 				|| snakeHead.y <= topWall || snakeHead.y >= downWall) {
 			this.wallColision = true;
-			System.out.println("COLIDED!!");
+		}
+	}
+	
+	private void gameOver() {
+		if (this.wallColision == true) {
+//			batch.begin();
+//			batch.draw(gameOverImg, 0, 0);
+//			batch.end();
+			ScreenUtils.clear(0, 2, 5, 1);
+			System.out.println("GAME OVER!!");
+			System.out.println("Scoreboard: " + scoreboard);
 		}
 	}
 	
