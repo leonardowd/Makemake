@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -32,12 +31,11 @@ public class SnakeGame extends ApplicationAdapter {
 	private static final int VIEWPORT_HEIGHT = 480;
 	private double snakeStep = 1;
 	private long speed = 100;
-	
 	private int scoreboard = 0;
 	
 	//Adding the foods
 	private Array<Rectangle> foods = new Array<Rectangle>();
-	
+		
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
